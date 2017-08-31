@@ -1,33 +1,32 @@
 # UBCPackage
 
+## 介绍
 
-A First Level Header
-====================
-A Second Level Header
----------------------
+这是为UBC TOKEN Package提供的手机（android）版客户端
 
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
+##开发环境
 
-The quick brown fox jumped over the lazy
-dog's back.
-### Header 3
+* android studio
+    *  gradle version:2.3.3
+    *  compile sdk version: API 26
+    *  build tools version:26.0.1
 
-> This is a blockquote.
-> 
-> This is the second paragraph in the blockquote.
->
-> ## This is an H2 in a blockquote
+## 目录结构
+* app
+* build
+* build.gradle
+* gradle
+* gradle.properties
+* gradlew
+* gradlew.bat
+* libzxing
+* local.properties
+* settings.gradle
 
-# 目录结构
-app
-build
-build.gradle
-gradle
-gradle.properties
-gradlew
-gradlew.bat
-libzxing
-local.properties
-settings.gradle
+##第三方库
+
+* zxing 
+
+##API接口地址 
+* https://github.com/isuekey/nodeIPCSever
+* 这是为UBC TOKEN Package提供的API服务。基于WEB3.js上的封装。
