@@ -4,7 +4,7 @@
 
 这是为UBC TOKEN Package提供的手机（android）版客户端
 
-##开发环境
+## 开发环境
 
 * android studio
     *  gradle version:2.3.3
@@ -23,10 +23,10 @@
 * local.properties
 * settings.gradle
 
-##第三方库
+## 第三方库
 
 * zxing 
 
-##API接口地址 
+## API接口地址
 * https://github.com/isuekey/nodeIPCSever
 * 这是为UBC TOKEN Package提供的API服务。基于WEB3.js上的封装。
