@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/myfiles/218/UBCPackage/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8e6f46ce5a2220deb4a099de94686c0e5f89a4d0">
+        <dex dex="/myfiles/218/UBCPackage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1c5c17ce811b76df44719b68181edfb45e43fb3d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/myfiles/218/UBCPackage/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/myfiles/218/UBCPackage/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_742b0ef8dece4b606d648e493e13de23f9fc669d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/myfiles/218/UBCPackage/app/libs/httpmime-4.1.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ed8b5ee0167cb27dea55851259eb34b609f31df0">
+        <dex dex="/myfiles/218/UBCPackage/app/build/intermediates/transforms/dex/debug/folders/1000/2/httpmime-4.1.2_2e50463f216f33df8942f047eb6e2c39f880f3c0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ylkjcjq/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.7/751f548c85fa49f330cecbb1875893f971b33c4e/gson-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="/myfiles/218/UBCPackage/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.7_34aef30b59b5a18a940b7d3c040fc006f7a97c66/classes.dex" />
+    </item>
+
+</items>

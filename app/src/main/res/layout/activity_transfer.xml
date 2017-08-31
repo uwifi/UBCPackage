@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="104px"
+        android:layout_height="104px"
+        android:onClick="onClick"
+        android:padding="25px"
+        android:layout_marginTop="20px"
+        android:src="@mipmap/ic_close_black" />
+
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="ETH转账"
+        android:textSize="42px"
+        android:layout_marginTop="40px"
+        android:textColor="@android:color/black"
+        />
+
+    <View
+        android:id="@+id/line"
+        android:layout_below="@+id/iv_close"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="20px"
+        android:background="@color/border_gray"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/line"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/mETAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="32px"
+                android:background="@drawable/edittext_bg_selector"
+                android:hint="收款人钱包地址"
+                />
+            <ImageView
+                android:id="@+id/iv_saosao"
+                android:onClick="onClick"
+                android:layout_width="wrap_content"
+                android:layout_alignTop="@+id/mETAddress"
+                android:layout_alignBottom="@+id/mETAddress"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_saosao_gray"
+                />
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edittext_bg_selector"
+            android:textSize="32px"
+            android:hint="转账金额"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@drawable/edittext_bg_selector"
+            android:hint="备注"
+            android:textSize="32px"
+            />
+    </LinearLayout>
+
+    <Button
+        android:text="下一步"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:textColor="@android:color/white"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

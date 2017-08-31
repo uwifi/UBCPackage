@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">UBCPackage</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">请输入邮箱账号</string>
+    <string name="prompt_name">请输入账号(邮箱)</string>
+    <string name="wallet_name">钱包名称</string>
+    <string name="prompt_password">登录密码(6-16位)</string>
+    <string name="prompt_passwordagain">重复密码(6-16位)</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register_in">注册</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">无效的邮箱</string>
+    <string name="error_invalid_password">密码太短了</string>
+    <string name="error_invalid_name">请输入昵称</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">请求失败</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>

@@ -1,0 +1,277 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="154px"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/h8" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorlinedarker_gray" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/mScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/mLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="280px"
+                android:onClick="onClick">
+
+                <ImageView
+                    android:id="@+id/mImageViewME"
+                    android:layout_width="160px"
+                    android:layout_height="160px"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/ic_defailt" />
+
+                <TextView
+                    android:id="@+id/mText_Myname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/mImageViewME"
+                    android:text="68633t7t@qq.com"
+                    android:textSize="48px" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30px"
+                android:background="@color/colorlightbackground" />
+
+            <RelativeLayout
+                android:id="@+id/mLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="141px">
+
+                <TextView
+                    android:id="@+id/mTextView_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="48px"
+                    android:layout_toRightOf="@+id/mImageView_me"
+                    android:text="消息"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:id="@+id/mImageView_me"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginTop="28px"
+                    android:background="@mipmap/ic_message" />
+
+                <ImageView
+                    android:layout_width="25px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/icon_item_more" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="60px"
+                android:background="@color/colorlinedarker_gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="60px"
+                android:background="@color/colorlinedarker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/mLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="142px"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/mTvOrganization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="48px"
+                    android:layout_toRightOf="@+id/mIvOrganization"
+                    android:text="设置"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:id="@+id/mIvOrganization"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginTop="28px"
+                    android:background="@mipmap/ic_setting" />
+
+                <ImageView
+                    android:layout_width="25px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/icon_item_more" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30px"
+                android:background="@color/colorlightbackground" />
+
+            <RelativeLayout
+                android:id="@+id/mLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="142px"
+                android:layout_above="@+id/imageView2"
+                android:layout_alignParentStart="true"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/mTextView_MyShoucang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="48px"
+                    android:layout_toRightOf="@+id/mImageView_MyShoucang"
+                    android:text="帮助中心"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:id="@+id/mImageView_MyShoucang"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginTop="28px"
+                    android:background="@mipmap/ic_help" />
+
+                <ImageView
+                    android:layout_width="25px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/icon_item_more" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginLeft="60px"
+                android:background="@color/colorlinedarker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/mLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="142px"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/mTvHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="48px"
+                    android:layout_toRightOf="@+id/mIvHistory"
+                    android:text="提交反馈"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:id="@+id/mIvHistory"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginTop="28px"
+                    android:background="@mipmap/ic_fankui" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="25px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/icon_item_more" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30px"
+                android:background="@color/colorlightbackground" />
+
+            <RelativeLayout
+                android:id="@+id/aboutus"
+                android:layout_width="match_parent"
+                android:layout_height="142px"
+                android:onClick="onClick">
+
+                <TextView
+                    android:id="@+id/mTvSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="52px"
+                    android:layout_marginTop="48px"
+                    android:layout_toRightOf="@+id/mIvSetting"
+                    android:text="关于我们"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:id="@+id/mIvSetting"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="60px"
+                    android:layout_marginTop="28px"
+                    android:background="@mipmap/ic_about" />
+
+                <ImageView
+                    android:layout_width="25px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:background="@mipmap/icon_item_more" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30px"
+                android:background="@color/colorlightbackground" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
