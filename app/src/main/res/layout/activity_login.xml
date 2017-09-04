@@ -19,7 +19,6 @@
             android:text="登录"
             android:textColor="@android:color/black"
             android:textSize="@dimen/h8" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
