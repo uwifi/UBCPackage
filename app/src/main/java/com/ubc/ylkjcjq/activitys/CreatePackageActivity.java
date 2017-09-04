@@ -75,7 +75,7 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
 
                 // Store values at the time of the login attempt.
                 String name = mUserNameView.getText().toString();
-                String email = mPromptView.getText().toString();
+                String Prompt = mPromptView.getText().toString();
                 String password = mPasswordView.getText().toString();
                 String passwordagain = mPassWorldAgainView.getText().toString();
 
@@ -111,10 +111,11 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
                         return;
                     }
                     JsonObjectBuilder builder = new JsonObjectBuilder();
-                    builder.append("appellation", name);
-                    builder.append("account", email);
+                    builder.append("walletType", "ETH");
                     builder.append("password", MD5Util.encrypt(password));
-                    builder.append("withdraw", MD5Util.encrypt(passwordagain));
+                    builder.append("appellation", name);
+                    builder.append("symbol", "ETH");
+//                    builder.append("icon", "");
                     createAccount(builder.toString());
                 }
                 break;
@@ -127,7 +128,7 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
 
     private  void createAccount(String date){
 
-        String url = AllUrl.getInstance().getCreatAccountUrl();
+        String url = AllUrl.getInstance().getCreatWalletUrl();
 
         if (HttpUtil.isNetworkAvailable(this)) {
             showDialog();
