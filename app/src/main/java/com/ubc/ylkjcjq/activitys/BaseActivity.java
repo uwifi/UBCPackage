@@ -16,7 +16,7 @@ public class BaseActivity extends AutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initDialog();
+        mLoginConfig = new LoginConfig(this);
     }
 
     private void initDialog(){
@@ -24,10 +24,10 @@ public class BaseActivity extends AutoLayoutActivity {
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#4dc1fd"));
         pDialog.setTitleText("Waiting...");
         pDialog.setCancelable(false);
-        mLoginConfig = new LoginConfig(this);
     }
 
     public void showDialog(){
+        initDialog();
         pDialog.show();
     }
 
