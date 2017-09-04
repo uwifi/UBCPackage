@@ -1,7 +1,7 @@
 package com.ubc.ylkjcjq.utils;
 
 /**
- * Created by Ebon-lax on 16/9/23.
+ * Created by cjq on 17/8/23.
  */
 
 public class GlobleValue {
