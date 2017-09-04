@@ -59,7 +59,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             buildConfigField("String", "IP", "\"112.126.89.88:80\"")
-//            buildConfigField("String", "IP", "\"1.119.10.198:8082\"")
 //            manifestPlaceholders = [
 //                    JPUSH_PKGNAME: defaultConfig.applicationId,
 //                    JPUSH_APPKEY : "cf47a7a62ce8915c994714f9",
