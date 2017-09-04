@@ -1,8 +1,11 @@
 package com.ubc.ylkjcjq.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,19 +21,33 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.activitys.CoinDetialActivity;
 import com.ubc.ylkjcjq.activitys.CreatePackageActivity;
 import com.ubc.ylkjcjq.activitys.ReceivablesCodeActivity;
 import com.ubc.ylkjcjq.adapters.EndMenuItemAdapter;
 import com.ubc.ylkjcjq.adapters.RecyclerViewAdapter;
+import com.ubc.ylkjcjq.http.httputils.AllUrl;
+import com.ubc.ylkjcjq.http.httputils.AsyncTaskManager;
+import com.ubc.ylkjcjq.http.httputils.GsonUtils;
+import com.ubc.ylkjcjq.http.httputils.HttpUtil;
+import com.ubc.ylkjcjq.http.requestparams.BaseRequestParm;
+import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
+import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
+import com.ubc.ylkjcjq.models.CreateWallet;
 import com.ubc.ylkjcjq.models.EndMenu;
+import com.ubc.ylkjcjq.utils.GlobleValue;
+import com.ubc.ylkjcjq.utils.LoginConfig;
 import com.ubc.ylkjcjq.views.ObservableScrollView;
 import com.ubc.ylkjcjq.views.RecyclerViewItemClickListener;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -55,6 +72,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     private DrawerLayout mDrawerLayout;
     private ListView mListView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
+    private Context mContext;
 
     String[] datas = {"ETH","UBC","BAT","DGD","GNT","1ST"};
 
@@ -63,7 +81,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main1, null);
-
+        mContext = view.getContext();
         //recyclerView填充数据(忽略不计)
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         tv_zongzichang = (TextView) view.findViewById(R.id.tv_zongzichang);
@@ -140,7 +158,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 //                mSwipeRefreshWidget.setRefreshing(true);
             }
         });
-
+        getWallet();
         return view;
     }
 
@@ -207,5 +225,60 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                 mSwipeRefreshWidget.setRefreshing(false);
             }
         },1000);
+    }
+
+    private void getWallet() {
+
+        String url = AllUrl.getInstance().getAccountCoinsUrl();
+
+        if (HttpUtil.isNetworkAvailable(mContext)) {
+            AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, "",
+                            AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                    new RequestListener<BaseResponseBean>() {
+
+                        @Override
+                        public void onFailed() {
+                            handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+
+                        @Override
+                        public void onComplete(BaseResponseBean bean) {
+                            if (bean.isSuccess()) {
+                                analiData(bean);
+                            } else
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+                    }, mContext);
+        } else {
+            Toasty.error(mContext, "网络未连接", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case GlobleValue.SUCCESS:
+
+
+                    break;
+                case GlobleValue.FAIL:
+
+                    break;
+            }
+        }
+    };
+
+    private void analiData(BaseResponseBean bean) {
+        try {
+//            CreateWallet mCreateWallet = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), CreateWallet.class);
+//            mLoginConfig.getUserName()
+            handler.sendEmptyMessage(GlobleValue.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            handler.sendEmptyMessage(GlobleValue.FAIL);
+        }
     }
 }
