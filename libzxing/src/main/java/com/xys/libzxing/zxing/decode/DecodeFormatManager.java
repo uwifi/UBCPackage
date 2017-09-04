@@ -29,6 +29,7 @@ public class DecodeFormatManager {
     private static final Set<BarcodeFormat> INDUSTRIAL_FORMATS;
     private static final Set<BarcodeFormat> ONE_D_FORMATS;
 
+
     // 二维码解码
     private static final Set<BarcodeFormat> QR_CODE_FORMATS;
 

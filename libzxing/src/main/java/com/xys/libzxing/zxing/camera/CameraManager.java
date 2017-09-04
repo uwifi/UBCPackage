@@ -38,7 +38,6 @@ import java.io.IOException;
 public class CameraManager {
 
     private static final String TAG = CameraManager.class.getSimpleName();
-
     private final Context context;
     private final CameraConfigurationManager configManager;
     private static CameraManager cameraManager;

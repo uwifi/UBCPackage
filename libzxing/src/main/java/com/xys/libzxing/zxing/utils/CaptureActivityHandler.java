@@ -46,7 +46,6 @@ public class CaptureActivityHandler extends Handler {
         decodeThread = new DecodeThread(activity, decodeMode);
         decodeThread.start();
         state = State.SUCCESS;
-
         // Start ourselves capturing previews and decoding.
         this.cameraManager = cameraManager;
         cameraManager.startPreview();

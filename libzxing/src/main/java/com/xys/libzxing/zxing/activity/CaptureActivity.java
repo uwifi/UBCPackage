@@ -49,7 +49,6 @@ import java.lang.reflect.Field;
  * thread. It draws a viewfinder to help the user place the barcode correctly,
  * shows feedback as the image processing is happening, and then overlays the
  * results when a scan is successful.
- *
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
