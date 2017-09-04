@@ -29,7 +29,6 @@
                 android:hint="@string/wallet_name"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:digits="0123456789abcdefjhigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^/*()_+."
                 android:singleLine="true"
                 android:textColorHint="@android:color/holo_green_light" />
 
@@ -101,7 +100,7 @@
         android:layout_margin="10dp"
         android:background="@color/blue"
         android:onClick="onClick"
-        android:text="创建账户"
+        android:text="创建钱包"
         android:textColor="@android:color/white" />
 
     <Button

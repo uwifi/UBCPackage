@@ -13,19 +13,23 @@ import android.widget.Toast;
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.http.httputils.AllUrl;
 import com.ubc.ylkjcjq.http.httputils.AsyncTaskManager;
+import com.ubc.ylkjcjq.http.httputils.GsonUtils;
 import com.ubc.ylkjcjq.http.httputils.HttpUtil;
 import com.ubc.ylkjcjq.http.httputils.JsonObjectBuilder;
 import com.ubc.ylkjcjq.http.requestparams.BaseRequestParm;
 import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
 import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
+import com.ubc.ylkjcjq.models.CreateWallet;
 import com.ubc.ylkjcjq.utils.GlobleValue;
+import com.ubc.ylkjcjq.utils.LoginConfig;
 import com.ubc.ylkjcjq.utils.MD5Util;
+
 import es.dmoral.toasty.Toasty;
 
 public class CreatePackageActivity extends BaseActivity implements View.OnClickListener {
 
-    private AutoCompleteTextView mUserNameView,mPromptView;
-    private EditText mPasswordView,mPassWorldAgainView;
+    private AutoCompleteTextView mUserNameView, mPromptView;
+    private EditText mPasswordView, mPassWorldAgainView;
 
 
     private Handler handler = new Handler() {
@@ -35,11 +39,11 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
             hideDialog();
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
-                    Toasty.success(CreatePackageActivity.this,"创建账户成功",Toast.LENGTH_SHORT,true).show();
+                    Toasty.success(CreatePackageActivity.this, "创建账户成功", Toast.LENGTH_SHORT, true).show();
                     finish();
                     break;
                 case GlobleValue.FAIL:
-                    Toasty.error(CreatePackageActivity.this,"创建出现错误",Toast.LENGTH_SHORT,true).show();
+                    Toasty.error(CreatePackageActivity.this, "创建出现错误", Toast.LENGTH_SHORT, true).show();
                     break;
             }
         }
@@ -50,7 +54,7 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_package);
 
-        ((TextView)findViewById(R.id.tv_tit)).setText("创建钱包");
+        ((TextView) findViewById(R.id.tv_tit)).setText("创建钱包");
 
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.username);
         mPromptView = (AutoCompleteTextView) findViewById(R.id.Prompt);
@@ -106,17 +110,17 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
                 if (cancel) {
                     focusView.requestFocus();
                 } else {
-                    if(password.equals(passwordagain)){
-                        Toasty.error(this,"登陆密码不能与提现密码一致",Toast.LENGTH_SHORT,true).show();
-                        return;
-                    }
-                    JsonObjectBuilder builder = new JsonObjectBuilder();
-                    builder.append("walletType", "ETH");
-                    builder.append("password", MD5Util.encrypt(password));
-                    builder.append("appellation", name);
-                    builder.append("symbol", "ETH");
+                    if (!password.equals(passwordagain)) {
+                        Toasty.error(this, "密码不一致", Toast.LENGTH_SHORT, true).show();
+                    } else {
+                        JsonObjectBuilder builder = new JsonObjectBuilder();
+                        builder.append("walletType", "eth");
+                        builder.append("password", MD5Util.encrypt(password));
+                        builder.append("appellation", name);
+                        builder.append("symbol", "eth");
 //                    builder.append("icon", "");
-                    createAccount(builder.toString());
+                        createAccount(builder.toString());
+                    }
                 }
                 break;
             default:
@@ -126,14 +130,14 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    private  void createAccount(String date){
+    private void createAccount(String date) {
 
         String url = AllUrl.getInstance().getCreatWalletUrl();
 
         if (HttpUtil.isNetworkAvailable(this)) {
             showDialog();
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, date,
-                            AsyncTaskManager.ContentTypeJson, "POST", ""),
+                            AsyncTaskManager.ContentTypeJson, "POST", LoginConfig.getAuthorization()),
                     new RequestListener<BaseResponseBean>() {
 
                         @Override
@@ -150,14 +154,15 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
                         }
                     }, this);
         } else {
-            Toasty.error(this,"网络未连接",Toast.LENGTH_SHORT,true).show();
+            Toasty.error(this, "网络未连接", Toast.LENGTH_SHORT, true).show();
             return;
         }
     }
 
     private void analiData(BaseResponseBean bean) {
         try {
-//            List<EndMenu> discussList = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()), "content", EndMenu.class);
+            CreateWallet mCreateWallet = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), CreateWallet.class);
+//            mLoginConfig.getUserName()
             handler.sendEmptyMessage(GlobleValue.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

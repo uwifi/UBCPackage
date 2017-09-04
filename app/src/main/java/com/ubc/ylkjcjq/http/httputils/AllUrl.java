@@ -37,4 +37,9 @@ public class AllUrl {
         return Url.BASE_URL + "/account/wallet";
     }
 
+    //账户钱包列表
+    public String getAccountCoinsUrl() {
+        return Url.BASE_URL + "/account/wallet/project";
+    }
+
 }
