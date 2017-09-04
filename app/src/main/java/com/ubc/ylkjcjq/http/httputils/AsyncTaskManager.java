@@ -17,7 +17,6 @@ import java.util.concurrent.Executors;
 
 /**
  * @description异步任务管理类 concurrent java.util.concurrent 是在并发编程中很常用的实用工具类。
- *
  */
 public class AsyncTaskManager {
 

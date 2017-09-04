@@ -9,7 +9,7 @@ import com.google.gson.JsonPrimitive;
 
 /**
  * @功能 构建JsonObject对象
- * @author lzl
+ * @author cjq
  * @version 1.0.0
  */
 public class JsonObjectBuilder {

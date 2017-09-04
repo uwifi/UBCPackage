@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @功能 Gson解析工具类
- * @author Lzl
+ * @author cjq
  * @version 1.0.0
  */
 public class GsonUtils {

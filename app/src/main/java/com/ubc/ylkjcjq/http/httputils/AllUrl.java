@@ -2,7 +2,7 @@ package com.ubc.ylkjcjq.http.httputils;
 
 
 /**
- * Created by Ebon-lax on 16/9/26.
+ * Created by cjq on 16/9/26.
  */
 
 public class AllUrl {
@@ -30,6 +30,11 @@ public class AllUrl {
     //刷新token
     public String getRefreshTokenUrl() {
         return Url.BASE_URL + "/account/token";
+    }
+
+    //创建钱包
+    public String getCreatWalletUrl() {
+        return Url.BASE_URL + "/account/wallet";
     }
 
 }
