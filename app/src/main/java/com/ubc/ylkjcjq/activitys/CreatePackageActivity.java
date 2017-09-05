@@ -115,7 +115,8 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
                     } else {
                         JsonObjectBuilder builder = new JsonObjectBuilder();
                         builder.append("walletType", "eth");
-                        builder.append("password", MD5Util.encrypt(password));
+                        builder.append("password", password);
+//                        builder.append("password", MD5Util.encrypt(password));
                         builder.append("appellation", name);
                         builder.append("symbol", "eth");
 //                    builder.append("icon", "");
