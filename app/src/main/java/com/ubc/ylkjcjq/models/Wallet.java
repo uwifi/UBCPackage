@@ -1,5 +1,7 @@
 package com.ubc.ylkjcjq.models;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 /**
@@ -8,73 +10,33 @@ import java.io.Serializable;
 
 public class Wallet implements Serializable {
 
+        @Expose
         private  int id;
-        private  String createdAt;
-        private  String projectAppellation;
-        private  String projectSymbol;
-        private  String projectIcon;
-        private  String accountAddress;
-        private  String accountValue;
-        private  String updated_at;
-        private  String created_at;
-        private  String updatedAt;
-        private  String account;
-        private  int accountId;
-
-        public int getId() {
-                return id;
-        }
-
-        public String getCreatedAt() {
-                return createdAt;
-        }
-
-        public String getProjectAppellation() {
-                return projectAppellation;
-        }
-
-        public String getProjectSymbol() {
-                return projectSymbol;
-        }
-
-        public String getProjectIcon() {
-                return projectIcon;
-        }
-
-        public String getAccountAddress() {
-                return accountAddress;
-        }
-
-        public String getAccountValue() {
-                return accountValue;
-        }
-
-        public String getUpdated_at() {
-                return updated_at;
-        }
-
-        public String getCreated_at() {
-                return created_at;
-        }
-
-        public String getUpdatedAt() {
-                return updatedAt;
-        }
-
-        public String getAccount() {
-                return account;
-        }
-
-        public int getAccountId() {
-                return accountId;
-        }
+        @Expose
+        private  boolean isShow = false;//是否默认显示
+        @Expose
+        private String  projectAppellation;//钱包名称
+        @Expose
+        private String  projectSymbol;//钱包类型
+        @Expose
+        private String  projectIcon;//钱包图标
+        @Expose
+        private String  accountAddress;//钱包地址
+        @Expose
+        private String  account;//钱包所属账户'
+        @Expose
+        private String  accountValue;//
+        @Expose
+        private String  status;//钱包状态
+        @Expose
+        private int  accountId;//所属账户id
 
         public void setId(int id) {
                 this.id = id;
         }
 
-        public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
+        public void setShow(boolean show) {
+                isShow = show;
         }
 
         public void setProjectAppellation(String projectAppellation) {
@@ -93,27 +55,59 @@ public class Wallet implements Serializable {
                 this.accountAddress = accountAddress;
         }
 
-        public void setAccountValue(String accountValue) {
-                this.accountValue = accountValue;
-        }
-
-        public void setUpdated_at(String updated_at) {
-                this.updated_at = updated_at;
-        }
-
-        public void setCreated_at(String created_at) {
-                this.created_at = created_at;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-                this.updatedAt = updatedAt;
-        }
-
         public void setAccount(String account) {
                 this.account = account;
         }
 
+        public void setAccountValue(String accountValue) {
+                this.accountValue = accountValue;
+        }
+
+        public void setStatus(String status) {
+                this.status = status;
+        }
+
         public void setAccountId(int accountId) {
                 this.accountId = accountId;
+        }
+
+        public int getId() {
+                return id;
+        }
+
+        public boolean isShow() {
+                return isShow;
+        }
+
+        public String getProjectAppellation() {
+                return projectAppellation;
+        }
+
+        public String getProjectSymbol() {
+                return projectSymbol;
+        }
+
+        public String getProjectIcon() {
+                return projectIcon;
+        }
+
+        public String getAccountAddress() {
+                return accountAddress;
+        }
+
+        public String getAccount() {
+                return account;
+        }
+
+        public String getAccountValue() {
+                return accountValue;
+        }
+
+        public String getStatus() {
+                return status;
+        }
+
+        public int getAccountId() {
+                return accountId;
         }
 }

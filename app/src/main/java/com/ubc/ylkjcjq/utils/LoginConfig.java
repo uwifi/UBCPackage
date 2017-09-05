@@ -77,6 +77,19 @@ public class LoginConfig {
         return sp.getString("AvailbleTime", "0");
     }
 
+
+    // 默认选中钱包
+    public static int getDefailtWallt() {
+        return sp.getInt("DefailtWallt", 0);
+    }
+
+    // 默认选中钱包
+    public static void setDefailtWallt(int defailtid) {
+        Editor ed = sp.edit();
+        ed.putInt("DefailtWallt", defailtid);
+        ed.commit();
+    }
+
     // token获取时的系统时间
     public void setStartTime(long expires_in) {
         Editor ed = sp.edit();

@@ -38,8 +38,18 @@ public class AllUrl {
     }
 
     //账户钱包列表
-    public String getAccountCoinsUrl() {
+    public String getAccountWalletsUrl() {
         return Url.BASE_URL + "/account/wallet/project";
+    }
+
+    //账户钱包币的列表
+    public String getAccountCoinsUrl(String projectAddress) {
+        return Url.BASE_URL + "/account/wallet/" + projectAddress + "/item";
+    }
+
+    //账户钱包币的信息
+    public String getAccountCoinDefailUrl(String projectAddress) {
+        return Url.BASE_URL + "/account/wallet/project/" + projectAddress;
     }
 
 }

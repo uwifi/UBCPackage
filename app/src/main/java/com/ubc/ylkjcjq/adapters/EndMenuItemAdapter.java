@@ -5,34 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ubc.ylkjcjq.R;
-import com.ubc.ylkjcjq.models.EndMenu;
+import com.ubc.ylkjcjq.models.Wallet;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by castl on 2016/5/13.
+ * Created by castl on 2017/8/23.
  */
 public class EndMenuItemAdapter extends BaseAdapter {
 
-    private List<EndMenu> objects = new ArrayList<EndMenu>();
+    private List<Wallet> objects = new ArrayList<Wallet>();
 
     @SuppressWarnings("unused")
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public EndMenuItemAdapter(Context context, List<EndMenu> objects) {
+    public EndMenuItemAdapter(Context context, List<Wallet> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects = objects;
     }
 
-    public List<EndMenu> setObjects(List<EndMenu> objects) {
+    public List<Wallet> setObjects(List<Wallet> objects) {
         return this.objects = objects;
     }
 
@@ -42,7 +43,7 @@ public class EndMenuItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public EndMenu getItem(int position) {
+    public Wallet getItem(int position) {
         return objects.get(position);
     }
 
@@ -62,28 +63,33 @@ public class EndMenuItemAdapter extends BaseAdapter {
             viewHolder = new EndMenuItemAdapter.ViewHolder();
             viewHolder.imgv = (ImageView) convertView.findViewById(R.id.imgv);
             viewHolder.tv = (TextView) convertView.findViewById(R.id.tv);
+            viewHolder.view = (FrameLayout) convertView.findViewById(R.id.view);
             convertView.setTag(viewHolder);
             AutoUtils.autoSize(convertView);
         } else {
             viewHolder = (EndMenuItemAdapter.ViewHolder) convertView.getTag();
         }
-        initializeViews((EndMenu) getItem(position), (EndMenuItemAdapter.ViewHolder) convertView.getTag());
+        initializeViews((Wallet) getItem(position), (EndMenuItemAdapter.ViewHolder) convertView.getTag());
         return convertView;
     }
 
-    private void initializeViews(EndMenu object, EndMenuItemAdapter.ViewHolder holder) {
+    private void initializeViews(Wallet object, EndMenuItemAdapter.ViewHolder holder) {
 //        Picasso.with(context)
 //                .load("file://" + object.getUri_thumb())
 //                .error(R.mipmap.ic_error)
 //                .fit()
 //                .centerCrop()
 //                .into(holder.imgv);
-        holder.tv.setText(object.getName());
+        holder.tv.setText(object.getProjectAppellation());
+        if(object.isShow()){
+            holder.view.setBackgroundColor(context.getResources().getColor(R.color.text_color));
+        }
 
     }
 
     protected class ViewHolder {
         private ImageView imgv;
+        private FrameLayout view;
         private TextView tv;
     }
 }

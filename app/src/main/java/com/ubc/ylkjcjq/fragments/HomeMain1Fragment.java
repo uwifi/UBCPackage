@@ -38,6 +38,7 @@ import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
 import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
 import com.ubc.ylkjcjq.models.CreateWallet;
 import com.ubc.ylkjcjq.models.EndMenu;
+import com.ubc.ylkjcjq.models.Wallet;
 import com.ubc.ylkjcjq.utils.GlobleValue;
 import com.ubc.ylkjcjq.utils.LoginConfig;
 import com.ubc.ylkjcjq.views.ObservableScrollView;
@@ -66,7 +67,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     private View layoutHead;
     private ImageView imageView;
     private ImageView mTabLineIv;
-    private TextView mTvOne, mTvTwo,tv_zongzichang,zongzichang;
+    private TextView mTvOne, mTvTwo,tv_zongzichang,zongzichang,tvWallet2,tvWallet;
     private int screenWidth;
 
     private DrawerLayout mDrawerLayout;
@@ -124,21 +125,11 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         view.findViewById(R.id.tvWallet2).setOnClickListener(this);
         view.findViewById(R.id.tvWallet3).setOnClickListener(this);
 
+        tvWallet = (TextView)view.findViewById(R.id.tvWallet);
+        tvWallet2 = (TextView)view.findViewById(R.id.tvWallet2);
+
         mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         mListView = (ListView) view.findViewById(R.id.listview);
-
-        List<EndMenu> objects = new ArrayList<EndMenu>();
-        objects.add(new EndMenu("","1的钱包"));
-        EndMenuItemAdapter ada = new EndMenuItemAdapter(view.getContext(),objects);
-
-        mListView.setAdapter(ada);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mDrawerLayout.closeDrawer(Gravity.END,true);
-
-            }
-        });
 
         mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
         mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
@@ -228,9 +219,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     }
 
     private void getWallet() {
-
-        String url = AllUrl.getInstance().getAccountCoinsUrl();
-
+        String url = AllUrl.getInstance().getAccountWalletsUrl();
         if (HttpUtil.isNetworkAvailable(mContext)) {
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, "",
                             AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
@@ -255,13 +244,58 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    //获取钱包 币的列表
+    private void getWalletCoins(String projectAddress) {
+
+        String url = AllUrl.getInstance().getAccountCoinsUrl(projectAddress);
+        if (HttpUtil.isNetworkAvailable(mContext)) {
+            AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, "",
+                            AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                    new RequestListener<BaseResponseBean>() {
+
+                        @Override
+                        public void onFailed() {
+                            handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+
+                        @Override
+                        public void onComplete(BaseResponseBean bean) {
+                            if (bean.isSuccess()) {
+                                analiDataCoins(bean);
+                            } else
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+                    }, mContext);
+        } else {
+            Toasty.error(mContext, "网络未连接", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
+                    if(mWallets == null || mWallets.size()==0){
+                        return;
+                    }
+                    mWallets.get(LoginConfig.getDefailtWallt()).setShow(true);
+                    tvWallet.setText(mWallets.get(LoginConfig.getDefailtWallt()).getProjectAppellation());
+                    tvWallet2.setText(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
 
+                    getWalletCoins(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+
+                    EndMenuItemAdapter ada = new EndMenuItemAdapter(mContext,mWallets);
+                    mListView.setAdapter(ada);
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mDrawerLayout.closeDrawer(Gravity.END,true);
+
+                        }
+                    });
 
                     break;
                 case GlobleValue.FAIL:
@@ -271,10 +305,23 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         }
     };
 
+
+    private List<Wallet> mWallets;
     private void analiData(BaseResponseBean bean) {
         try {
-//            CreateWallet mCreateWallet = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), CreateWallet.class);
-//            mLoginConfig.getUserName()
+            mWallets = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
+                    "data", Wallet.class);
+            handler.sendEmptyMessage(GlobleValue.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            handler.sendEmptyMessage(GlobleValue.FAIL);
+        }
+    }
+
+    private void analiDataCoins(BaseResponseBean bean) {
+        try {
+//            mWallets = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
+//                    "data", Wallet.class);
             handler.sendEmptyMessage(GlobleValue.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

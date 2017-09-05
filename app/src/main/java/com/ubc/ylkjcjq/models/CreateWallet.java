@@ -1,5 +1,7 @@
 package com.ubc.ylkjcjq.models;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 /**
@@ -8,17 +10,29 @@ import java.io.Serializable;
 
 public class CreateWallet implements Serializable {
 
+        @Expose
         private  int id;
+        @Expose
         private  String createdAt;
+        @Expose
         private  String projectAppellation;
+        @Expose
         private  String projectSymbol;
+        @Expose
         private  String projectIcon;
+        @Expose
         private  String accountAddress;
+        @Expose
         private  String accountValue;
+        @Expose
         private  String updated_at;
+        @Expose
         private  String created_at;
+        @Expose
         private  String updatedAt;
+        @Expose
         private  String account;
+        @Expose
         private  int accountId;
 
         public int getId() {
