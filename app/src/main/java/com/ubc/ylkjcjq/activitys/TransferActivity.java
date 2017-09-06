@@ -19,8 +19,6 @@ public class TransferActivity extends AutoLayoutActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transfer);
         mETAddress = (EditText)findViewById(R.id.mETAddress);
-
-
         findViewById(R.id.iv_saosao).setOnClickListener(this);
     }
 
