@@ -8,5 +8,11 @@
         <activity
             android:label="@string/zxing_bar_name"
             android:name=".zxing.activity.CaptureActivity"/>
+        <meta-data
+            android:name="design_width"
+            android:value="1080" />
+        <meta-data
+            android:name="design_height"
+            android:value="1920" />
     </application>
 </manifest>

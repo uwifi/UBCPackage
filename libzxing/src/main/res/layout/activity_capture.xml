@@ -5,13 +5,39 @@
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/r1"
+        android:layout_width="match_parent"
+        android:layout_height="154px">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="108px"
+            android:layout_height="108px"
+            android:layout_marginLeft="20px"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="20px"
+            android:src="@drawable/fanhui_p"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/tv_tit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="扫描收币地址"
+            android:textColor="@android:color/black"
+            android:textSize="54px" />
+
+    </RelativeLayout>
 
     <SurfaceView
         android:id="@+id/capture_preview"
+        android:layout_below="@+id/r1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <RelativeLayout
+        android:layout_below="@+id/r1"
         android:id="@+id/capture_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
