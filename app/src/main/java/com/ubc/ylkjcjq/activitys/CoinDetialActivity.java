@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.adapters.RecyclerViewAdapter;
+import com.ubc.ylkjcjq.adapters.RecyclerViewDetialAdapter;
 import com.ubc.ylkjcjq.models.CoinObject;
+import com.ubc.ylkjcjq.models.RecordItem;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;
@@ -26,14 +28,16 @@ public class CoinDetialActivity extends AutoLayoutActivity implements View.OnCli
 
 
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    List<CoinObject> datas = new ArrayList<>();
-    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
+    List<RecordItem> datas = new ArrayList<>();
+    RecyclerViewDetialAdapter mRecyclerViewAdapter = new RecyclerViewDetialAdapter(datas);
     private CoinObject mCoinObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_detial);
+
+        datas.add(new RecordItem());
 
         mCoinObject = (CoinObject) getIntent().getExtras().getSerializable("CoinObject");
         //recyclerView填充数据(忽略不计)
