@@ -28,12 +28,14 @@ public class CoinDetialActivity extends AutoLayoutActivity implements View.OnCli
     private SwipeRefreshLayout mSwipeRefreshWidget;
     List<CoinObject> datas = new ArrayList<>();
     RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
+    private CoinObject mCoinObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_detial);
 
+        mCoinObject = (CoinObject) getIntent().getExtras().getSerializable("CoinObject");
         //recyclerView填充数据(忽略不计)
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,7 +68,13 @@ public class CoinDetialActivity extends AutoLayoutActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_shoukuan:
-                startActivity(new Intent(this, ReceivablesCodeActivity.class));
+                Intent min = new Intent(view.getContext(), ReceivablesCodeActivity.class);
+                if (mCoinObject.getItemAddress() != null) {
+                    min.putExtra("code", mCoinObject.getItemAddress());
+                } else {
+                    min.putExtra("code", mCoinObject.getProjectAddress());
+                }
+                startActivity(min);
                 break;
             case R.id.btn_zhuanzhang:
                 startActivity(new Intent(this, TransferActivity.class));

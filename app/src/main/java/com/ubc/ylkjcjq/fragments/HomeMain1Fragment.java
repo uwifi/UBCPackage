@@ -56,7 +56,6 @@ import es.dmoral.toasty.Toasty;
  */
 public class HomeMain1Fragment extends Fragment implements View.OnClickListener ,ObservableScrollView.ScrollViewListener,SwipeRefreshLayout.OnRefreshListener {
 
-
     private RecyclerView mRecyclerView;
     private ImageView image_header;
     private ObservableScrollView personalScrollView;
@@ -162,7 +161,9 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.tvWallet2:
             case R.id.tvWallet3:
-                startActivity(new Intent(view.getContext(), ReceivablesCodeActivity.class));
+                Intent min = new Intent(view.getContext(), ReceivablesCodeActivity.class);
+                min.putExtra("code",tvWallet2.getText().toString());
+                startActivity(min);
                 break;
            default:
 
@@ -301,7 +302,12 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                     mRecyclerViewAdapter.setmRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
                         @Override
                         public void onItemClick(View view, int postion) {
-                            startActivity(new Intent(view.getContext(),CoinDetialActivity.class));
+                            CoinObject mCoinObject = mCoinObjects.get(postion);
+                            Intent mIntent = new Intent(view.getContext(),CoinDetialActivity.class);
+                            Bundle mBundle = new Bundle();
+                            mBundle.putSerializable("CoinObject",mCoinObject);
+                            mIntent.putExtras(mBundle);
+                            startActivity(mIntent);
                         }
                     });
 

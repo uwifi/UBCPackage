@@ -73,8 +73,8 @@
 
                         <ImageView
                             android:id="@+id/tvWallet3"
-                            android:layout_width="30px"
-                            android:layout_height="30px"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
                             android:layout_alignBottom="@+id/tvWallet2"
                             android:layout_alignTop="@+id/tvWallet2"
                             android:layout_marginLeft="8px"
