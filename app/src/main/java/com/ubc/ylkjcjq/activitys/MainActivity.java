@@ -100,6 +100,8 @@ public class MainActivity extends AutoLayoutActivity implements View.OnClickList
             Intent mIntent = new Intent(this,TransferActivity.class);
             mIntent.putExtra("code",result);
             startActivity(mIntent);
+        }else {
+            mHomeMain1Fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

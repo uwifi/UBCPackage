@@ -73,26 +73,13 @@ public class AsyncTaskManager {
 //				 判断token是否过期
 				if (Utils.TokenBeOverdue(LoginConfig.getStartTime(),
 						Long.parseLong(LoginConfig.getAvailbleTime()))) {
-					// 刷新token
-					String jsonData = "grant_type=refresh_token" + "&refresh_token="
-							+ mloginConfig.getReAuthorization();
-					BaseRequestParm refreshParm = new BaseRequestParm(AllUrl.getInstance().getRefreshTokenUrl(), jsonData,
-							AsyncTaskManager.ContentTypeXfl, "POST", AsyncTaskManager.LoginToken);
-					BaseResponseBean refreshBean = getResponseBean(refreshParm);
-					if (analysis(refreshBean, mloginConfig)) {
-						// 刷新成功 继续下一步
-						parms.setAuthorization(LoginConfig.getAuthorization());// token重新设置
-						BaseResponseBean responseBean = getResponseBean(parms);
-						listener.onComplete(responseBean);
-					} else {
-						listener.onFailed();
-						SystemLog.Log("token刷新失败");
-					}
+					refresh(parms,listener,mloginConfig);
 				} else {
 					// token未过期，继续操作
 					BaseResponseBean responseBean = getResponseBean(parms);
 					if (responseBean.response != null && responseBean.response.equals("401")) {
 //						listener.onFailed();// 认证失败
+						refresh(parms,listener,mloginConfig);
 					} else {
 						listener.onComplete(responseBean);
 					}
@@ -100,6 +87,24 @@ public class AsyncTaskManager {
 			}
 		});
 
+	}
+
+	private void refresh(final BaseRequestParm parms, final RequestListener<BaseResponseBean> listener,LoginConfig mloginConfig){
+		// 刷新token
+		String jsonData = "grant_type=refresh_token" + "&refresh_token="
+				+ mloginConfig.getReAuthorization();
+		BaseRequestParm refreshParm = new BaseRequestParm(AllUrl.getInstance().getRefreshTokenUrl(), jsonData,
+				AsyncTaskManager.ContentTypeXfl, "POST", AsyncTaskManager.LoginToken);
+		BaseResponseBean refreshBean = getResponseBean(refreshParm);
+		if (analysis(refreshBean, mloginConfig)) {
+			// 刷新成功 继续下一步
+			parms.setAuthorization(LoginConfig.getAuthorization());// token重新设置
+			BaseResponseBean responseBean = getResponseBean(parms);
+			listener.onComplete(responseBean);
+		} else {
+			listener.onFailed();
+			SystemLog.Log("token刷新失败");
+		}
 	}
 
 	// 解析刷新的数据

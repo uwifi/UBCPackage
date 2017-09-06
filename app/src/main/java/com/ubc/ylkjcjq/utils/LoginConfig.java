@@ -20,13 +20,13 @@ public class LoginConfig {
     }
 
     // 设置userName,在登录设置
-    public void setUserName(String schema) {
+    public static void setUserName(String schema) {
         Editor ed = sp.edit();
         ed.putString("userName", schema);
         ed.commit();
     }
 
-    public String getUserName() {
+    public static String getUserName() {
         return sp.getString("userName", "");
     }
 

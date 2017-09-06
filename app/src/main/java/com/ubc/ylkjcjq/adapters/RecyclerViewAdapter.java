@@ -7,16 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ubc.ylkjcjq.R;
+import com.ubc.ylkjcjq.models.CoinObject;
 import com.ubc.ylkjcjq.views.RecyclerViewItemClickListener;
 import com.zhy.autolayout.utils.AutoUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ylkjcjq on 2017/8/28.
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    public String[] datas = null;
-    public RecyclerViewAdapter(String[] datas) {
+//    public CoinObject[] datas = null;
+    List<CoinObject> datas = null;
+    public RecyclerViewAdapter(List<CoinObject> datas) {
         this.datas = datas;
     }
 
@@ -44,23 +49,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         }
-        viewHolder.mTextView.setText(datas[position]);
+        viewHolder.mTextView.setText(datas.get(position).getItemSymbol());
+        viewHolder.tvNUM.setText(datas.get(position).getAccountValue()+"");
     }
     //获取数据的数量
     @Override
     public int getItemCount() {
-        return datas.length;
+        return datas.size();
     }
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
         public View view;
+        public TextView tvNUM;
         public ViewHolder(View view){
             super(view);
             //对于listview，注意添加这一行，即可在item上使用高度
             AutoUtils.autoSize(view);
             this.view = view;
             mTextView = (TextView) view.findViewById(R.id.name);
+            tvNUM = (TextView) view.findViewById(R.id.tvNUM);
         }
     }
 }

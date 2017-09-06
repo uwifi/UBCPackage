@@ -82,7 +82,9 @@ public class EndMenuItemAdapter extends BaseAdapter {
 //                .into(holder.imgv);
         holder.tv.setText(object.getProjectAppellation());
         if(object.isShow()){
-            holder.view.setBackgroundColor(context.getResources().getColor(R.color.text_color));
+            holder.view.setBackgroundColor(context.getResources().getColor(R.color.gray_btn_bg_color));
+        }else {
+            holder.view.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
 
     }

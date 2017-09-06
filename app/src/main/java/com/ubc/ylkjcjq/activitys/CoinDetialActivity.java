@@ -14,16 +14,19 @@ import android.widget.Toast;
 
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.adapters.RecyclerViewAdapter;
+import com.ubc.ylkjcjq.models.CoinObject;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
 public class CoinDetialActivity extends AutoLayoutActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
-    String[] datas = {"s", "sw", "sw", "sw", "sw", "sw"};
     private SwipeRefreshLayout mSwipeRefreshWidget;
-
+    List<CoinObject> datas = new ArrayList<>();
     RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
 
     @Override

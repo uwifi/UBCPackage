@@ -36,8 +36,7 @@ import com.ubc.ylkjcjq.http.httputils.HttpUtil;
 import com.ubc.ylkjcjq.http.requestparams.BaseRequestParm;
 import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
 import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
-import com.ubc.ylkjcjq.models.CreateWallet;
-import com.ubc.ylkjcjq.models.EndMenu;
+import com.ubc.ylkjcjq.models.CoinObject;
 import com.ubc.ylkjcjq.models.Wallet;
 import com.ubc.ylkjcjq.utils.GlobleValue;
 import com.ubc.ylkjcjq.utils.LoginConfig;
@@ -45,7 +44,6 @@ import com.ubc.ylkjcjq.views.ObservableScrollView;
 import com.ubc.ylkjcjq.views.RecyclerViewItemClickListener;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -75,10 +73,6 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     private SwipeRefreshLayout mSwipeRefreshWidget;
     private Context mContext;
 
-    String[] datas = {"ETH","UBC","BAT","DGD","GNT","1ST"};
-
-    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main1, null);
@@ -89,14 +83,6 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         zongzichang = (TextView) view.findViewById(R.id.zongzichang);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
-
-        mRecyclerViewAdapter.setmRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
-                startActivity(new Intent(view.getContext(),CoinDetialActivity.class));
-            }
-        });
 
         personalScrollView = (ObservableScrollView) view.findViewById(R.id.mScrollView);
 
@@ -132,8 +118,6 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         mListView = (ListView) view.findViewById(R.id.listview);
 
         mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
-        mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-
         mSwipeRefreshWidget.setColorSchemeResources(R.color.blue,R.color.community_bg,
                 R.color.umeng_fb_color_btn_normal, R.color.umeng_fb_color_btn_pressed);
         mSwipeRefreshWidget.setOnRefreshListener(this);
@@ -174,7 +158,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
             case R.id.mRL2:
                 mDrawerLayout.closeDrawer(Gravity.END,true);
-                    startActivity(new Intent(view.getContext(), CreatePackageActivity.class));
+                startActivityForResult(new Intent(view.getContext(),CreatePackageActivity.class),0);
                 break;
             case R.id.tvWallet2:
             case R.id.tvWallet3:
@@ -287,18 +271,39 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
                     getWalletCoins(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
 
-                    EndMenuItemAdapter ada = new EndMenuItemAdapter(mContext,mWallets);
+                    final EndMenuItemAdapter ada = new EndMenuItemAdapter(mContext,mWallets);
                     mListView.setAdapter(ada);
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             mDrawerLayout.closeDrawer(Gravity.END,true);
-
+                            mWallets.get(LoginConfig.getDefailtWallt()).setShow(false);
+                            LoginConfig.setDefailtWallt(position);
+                            mWallets.get(LoginConfig.getDefailtWallt()).setShow(true);
+                            tvWallet.setText(mWallets.get(LoginConfig.getDefailtWallt()).getProjectAppellation());
+                            tvWallet2.setText(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+                            getWalletCoins(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+                            ada.notifyDataSetChanged();
                         }
                     });
 
                     break;
                 case GlobleValue.FAIL:
+
+                    break;
+                case GlobleValue.SUCCESS2:
+                    if(mCoinObjects == null || mCoinObjects.size()==0){
+                        return;
+                    }
+                    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(mCoinObjects);
+                    mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+                    mRecyclerViewAdapter.setmRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int postion) {
+                            startActivity(new Intent(view.getContext(),CoinDetialActivity.class));
+                        }
+                    });
 
                     break;
             }
@@ -318,14 +323,21 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    private List<CoinObject> mCoinObjects;
     private void analiDataCoins(BaseResponseBean bean) {
         try {
-//            mWallets = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
-//                    "data", Wallet.class);
-            handler.sendEmptyMessage(GlobleValue.SUCCESS);
+            mCoinObjects = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
+                    "data", CoinObject.class);
+            handler.sendEmptyMessage(GlobleValue.SUCCESS2);
         } catch (Exception e) {
             e.printStackTrace();
             handler.sendEmptyMessage(GlobleValue.FAIL);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getWallet();
     }
 }

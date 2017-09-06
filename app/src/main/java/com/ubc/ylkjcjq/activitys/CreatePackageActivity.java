@@ -22,7 +22,6 @@ import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
 import com.ubc.ylkjcjq.models.CreateWallet;
 import com.ubc.ylkjcjq.utils.GlobleValue;
 import com.ubc.ylkjcjq.utils.LoginConfig;
-import com.ubc.ylkjcjq.utils.MD5Util;
 
 import es.dmoral.toasty.Toasty;
 
@@ -40,6 +39,7 @@ public class CreatePackageActivity extends BaseActivity implements View.OnClickL
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
                     Toasty.success(CreatePackageActivity.this, "创建账户成功", Toast.LENGTH_SHORT, true).show();
+                    setResult(0);
                     finish();
                     break;
                 case GlobleValue.FAIL:
