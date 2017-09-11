@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 /**
  *
+ * Created by cjq on 17/8/23.
  * 系统配置
  *
  */
@@ -19,13 +20,13 @@ public class LoginConfig {
     }
 
     // 设置userName,在登录设置
-    public void setUserName(String schema) {
+    public static void setUserName(String schema) {
         Editor ed = sp.edit();
         ed.putString("userName", schema);
         ed.commit();
     }
 
-    public String getUserName() {
+    public static String getUserName() {
         return sp.getString("userName", "");
     }
 
@@ -74,6 +75,19 @@ public class LoginConfig {
     // 有效时间
     public static String getAvailbleTime() {
         return sp.getString("AvailbleTime", "0");
+    }
+
+
+    // 默认选中钱包
+    public static int getDefailtWallt() {
+        return sp.getInt("DefailtWallt", 0);
+    }
+
+    // 默认选中钱包
+    public static void setDefailtWallt(int defailtid) {
+        Editor ed = sp.edit();
+        ed.putInt("DefailtWallt", defailtid);
+        ed.commit();
     }
 
     // token获取时的系统时间

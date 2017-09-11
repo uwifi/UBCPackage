@@ -30,10 +30,11 @@ public class ReceivablesCodeActivity extends AutoLayoutActivity implements View.
         tvCode = (TextView)findViewById(R.id.tvCode);
         ImageView imgcode = (ImageView)findViewById(R.id.imgcode);
 
-
+        String code = getIntent().getExtras().getString("code");
+        tvCode.setText(code);
         Bitmap item = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_defailt);
 
-        Bitmap bitmap = EncodingUtils.createQRCode("0x91654eaf7828e7e05d2847aa27405d9925c3dc0d", 500, 500, item);
+        Bitmap bitmap = EncodingUtils.createQRCode(code, 500, 500, item);
 
         // 设置图片
         imgcode.setImageBitmap(bitmap);

@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void doLogin(String name, String psw) {
+    private void doLogin(final String name, String psw) {
 //        encodeURIComponent
 //        name = URLEncoder.encode(name);
         String date = "username=" + name + "&password=" + psw + "&grant_type=password";
@@ -178,6 +178,7 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void onComplete(BaseResponseBean bean) {
                             if (bean.isSuccess()) {
+                                LoginConfig.setUserName(name);
                                 analiData(bean);
                             } else
                                 handler.sendEmptyMessage(GlobleValue.FAIL);

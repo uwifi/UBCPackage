@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -40,6 +41,7 @@ import com.xys.libzxing.zxing.decode.DecodeThread;
 import com.xys.libzxing.zxing.utils.BeepManager;
 import com.xys.libzxing.zxing.utils.CaptureActivityHandler;
 import com.xys.libzxing.zxing.utils.InactivityTimer;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,11 +51,10 @@ import java.lang.reflect.Field;
  * thread. It draws a viewfinder to help the user place the barcode correctly,
  * shows feedback as the image processing is happening, and then overlays the
  * results when a scan is successful.
- *
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+public final class CaptureActivity extends AutoLayoutActivity implements SurfaceHolder.Callback{
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
@@ -101,6 +102,12 @@ public final class CaptureActivity extends AppCompatActivity implements SurfaceH
         animation.setRepeatCount(-1);
         animation.setRepeatMode(Animation.RESTART);
         scanLine.startAnimation(animation);
+        findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

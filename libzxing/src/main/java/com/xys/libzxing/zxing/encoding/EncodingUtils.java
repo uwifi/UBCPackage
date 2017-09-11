@@ -27,6 +27,7 @@ public class EncodingUtils {
      * @param logoBm    logoBm
      * @return 二维码
      */
+
     public static Bitmap createQRCode(String content, int widthPix, int heightPix, Bitmap logoBm) {
         try {
             if (content == null || "".equals(content)) {

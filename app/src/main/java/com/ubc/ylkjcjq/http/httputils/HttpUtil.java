@@ -40,9 +40,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author Administrator
+ * @author cjq
  * @ClassName: HttpUtil
- * @date 2014-3-31 下午5:42:17
  */
 public class HttpUtil {
 

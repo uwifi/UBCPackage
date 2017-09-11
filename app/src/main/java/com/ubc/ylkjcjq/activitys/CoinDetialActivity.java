@@ -14,23 +14,32 @@ import android.widget.Toast;
 
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.adapters.RecyclerViewAdapter;
+import com.ubc.ylkjcjq.adapters.RecyclerViewDetialAdapter;
+import com.ubc.ylkjcjq.models.CoinObject;
+import com.ubc.ylkjcjq.models.RecordItem;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
 public class CoinDetialActivity extends AutoLayoutActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
-    String[] datas = {"s", "sw", "sw", "sw", "sw", "sw"};
     private SwipeRefreshLayout mSwipeRefreshWidget;
-
-    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
+    List<RecordItem> datas = new ArrayList<>();
+    RecyclerViewDetialAdapter mRecyclerViewAdapter = new RecyclerViewDetialAdapter(datas);
+    private CoinObject mCoinObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_detial);
 
+        datas.add(new RecordItem());
+
+        mCoinObject = (CoinObject) getIntent().getExtras().getSerializable("CoinObject");
         //recyclerView填充数据(忽略不计)
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,7 +72,13 @@ public class CoinDetialActivity extends AutoLayoutActivity implements View.OnCli
                 finish();
                 break;
             case R.id.btn_shoukuan:
-                startActivity(new Intent(this, ReceivablesCodeActivity.class));
+                Intent min = new Intent(view.getContext(), ReceivablesCodeActivity.class);
+                if (mCoinObject.getItemAddress() != null) {
+                    min.putExtra("code", mCoinObject.getItemAddress());
+                } else {
+                    min.putExtra("code", mCoinObject.getProjectAddress());
+                }
+                startActivity(min);
                 break;
             case R.id.btn_zhuanzhang:
                 startActivity(new Intent(this, TransferActivity.class));

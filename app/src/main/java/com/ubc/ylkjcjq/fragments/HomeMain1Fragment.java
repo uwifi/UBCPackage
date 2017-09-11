@@ -1,8 +1,11 @@
 package com.ubc.ylkjcjq.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,19 +21,32 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ubc.ylkjcjq.R;
 import com.ubc.ylkjcjq.activitys.CoinDetialActivity;
 import com.ubc.ylkjcjq.activitys.CreatePackageActivity;
 import com.ubc.ylkjcjq.activitys.ReceivablesCodeActivity;
 import com.ubc.ylkjcjq.adapters.EndMenuItemAdapter;
 import com.ubc.ylkjcjq.adapters.RecyclerViewAdapter;
-import com.ubc.ylkjcjq.models.EndMenu;
+import com.ubc.ylkjcjq.http.httputils.AllUrl;
+import com.ubc.ylkjcjq.http.httputils.AsyncTaskManager;
+import com.ubc.ylkjcjq.http.httputils.GsonUtils;
+import com.ubc.ylkjcjq.http.httputils.HttpUtil;
+import com.ubc.ylkjcjq.http.requestparams.BaseRequestParm;
+import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
+import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
+import com.ubc.ylkjcjq.models.CoinObject;
+import com.ubc.ylkjcjq.models.Wallet;
+import com.ubc.ylkjcjq.utils.GlobleValue;
+import com.ubc.ylkjcjq.utils.LoginConfig;
 import com.ubc.ylkjcjq.views.ObservableScrollView;
 import com.ubc.ylkjcjq.views.RecyclerViewItemClickListener;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -40,7 +56,6 @@ import java.util.List;
  */
 public class HomeMain1Fragment extends Fragment implements View.OnClickListener ,ObservableScrollView.ScrollViewListener,SwipeRefreshLayout.OnRefreshListener {
 
-
     private RecyclerView mRecyclerView;
     private ImageView image_header;
     private ObservableScrollView personalScrollView;
@@ -49,35 +64,24 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     private View layoutHead;
     private ImageView imageView;
     private ImageView mTabLineIv;
-    private TextView mTvOne, mTvTwo,tv_zongzichang,zongzichang;
+    private TextView mTvOne, mTvTwo,tv_zongzichang,zongzichang,tvWallet2,tvWallet;
     private int screenWidth;
 
     private DrawerLayout mDrawerLayout;
     private ListView mListView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-
-    String[] datas = {"ETH","UBC","BAT","DGD","GNT","1ST"};
-
-    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(datas);
+    private Context mContext;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main1, null);
-
+        mContext = view.getContext();
         //recyclerView填充数据(忽略不计)
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         tv_zongzichang = (TextView) view.findViewById(R.id.tv_zongzichang);
         zongzichang = (TextView) view.findViewById(R.id.zongzichang);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
-
-        mRecyclerViewAdapter.setmRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
-                startActivity(new Intent(view.getContext(),CoinDetialActivity.class));
-            }
-        });
 
         personalScrollView = (ObservableScrollView) view.findViewById(R.id.mScrollView);
 
@@ -106,25 +110,13 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         view.findViewById(R.id.tvWallet2).setOnClickListener(this);
         view.findViewById(R.id.tvWallet3).setOnClickListener(this);
 
+        tvWallet = (TextView)view.findViewById(R.id.tvWallet);
+        tvWallet2 = (TextView)view.findViewById(R.id.tvWallet2);
+
         mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         mListView = (ListView) view.findViewById(R.id.listview);
 
-        List<EndMenu> objects = new ArrayList<EndMenu>();
-        objects.add(new EndMenu("","1的钱包"));
-        EndMenuItemAdapter ada = new EndMenuItemAdapter(view.getContext(),objects);
-
-        mListView.setAdapter(ada);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mDrawerLayout.closeDrawer(Gravity.END,true);
-
-            }
-        });
-
         mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
-        mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
-
         mSwipeRefreshWidget.setColorSchemeResources(R.color.blue,R.color.community_bg,
                 R.color.umeng_fb_color_btn_normal, R.color.umeng_fb_color_btn_pressed);
         mSwipeRefreshWidget.setOnRefreshListener(this);
@@ -140,7 +132,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 //                mSwipeRefreshWidget.setRefreshing(true);
             }
         });
-
+        getWallet();
         return view;
     }
 
@@ -165,11 +157,13 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
             case R.id.mRL2:
                 mDrawerLayout.closeDrawer(Gravity.END,true);
-                    startActivity(new Intent(view.getContext(), CreatePackageActivity.class));
+                startActivityForResult(new Intent(view.getContext(),CreatePackageActivity.class),0);
                 break;
             case R.id.tvWallet2:
             case R.id.tvWallet3:
-                startActivity(new Intent(view.getContext(), ReceivablesCodeActivity.class));
+                Intent min = new Intent(view.getContext(), ReceivablesCodeActivity.class);
+                min.putExtra("code",tvWallet2.getText().toString());
+                startActivity(min);
                 break;
            default:
 
@@ -207,5 +201,149 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                 mSwipeRefreshWidget.setRefreshing(false);
             }
         },1000);
+    }
+
+    private void getWallet() {
+        String url = AllUrl.getInstance().getAccountWalletsUrl();
+        if (HttpUtil.isNetworkAvailable(mContext)) {
+            AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, "",
+                            AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                    new RequestListener<BaseResponseBean>() {
+
+                        @Override
+                        public void onFailed() {
+                            handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+
+                        @Override
+                        public void onComplete(BaseResponseBean bean) {
+                            if (bean.isSuccess()) {
+                                analiData(bean);
+                            } else
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+                    }, mContext);
+        } else {
+            Toasty.error(mContext, "网络未连接", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+    }
+
+    //获取钱包 币的列表
+    private void getWalletCoins(String projectAddress) {
+
+        String url = AllUrl.getInstance().getAccountCoinsUrl(projectAddress);
+        if (HttpUtil.isNetworkAvailable(mContext)) {
+            AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(url, "",
+                            AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                    new RequestListener<BaseResponseBean>() {
+
+                        @Override
+                        public void onFailed() {
+                            handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+
+                        @Override
+                        public void onComplete(BaseResponseBean bean) {
+                            if (bean.isSuccess()) {
+                                analiDataCoins(bean);
+                            } else
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                        }
+                    }, mContext);
+        } else {
+            Toasty.error(mContext, "网络未连接", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case GlobleValue.SUCCESS:
+                    if(mWallets == null || mWallets.size()==0){
+                        return;
+                    }
+                    mWallets.get(LoginConfig.getDefailtWallt()).setShow(true);
+                    tvWallet.setText(mWallets.get(LoginConfig.getDefailtWallt()).getProjectAppellation());
+                    tvWallet2.setText(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+
+                    getWalletCoins(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+
+                    final EndMenuItemAdapter ada = new EndMenuItemAdapter(mContext,mWallets);
+                    mListView.setAdapter(ada);
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mDrawerLayout.closeDrawer(Gravity.END,true);
+                            mWallets.get(LoginConfig.getDefailtWallt()).setShow(false);
+                            LoginConfig.setDefailtWallt(position);
+                            mWallets.get(LoginConfig.getDefailtWallt()).setShow(true);
+                            tvWallet.setText(mWallets.get(LoginConfig.getDefailtWallt()).getProjectAppellation());
+                            tvWallet2.setText(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+                            getWalletCoins(mWallets.get(LoginConfig.getDefailtWallt()).getAccountAddress());
+                            ada.notifyDataSetChanged();
+                        }
+                    });
+
+                    break;
+                case GlobleValue.FAIL:
+
+                    break;
+                case GlobleValue.SUCCESS2:
+                    if(mCoinObjects == null || mCoinObjects.size()==0){
+                        return;
+                    }
+                    RecyclerViewAdapter mRecyclerViewAdapter = new RecyclerViewAdapter(mCoinObjects);
+                    mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+                    mRecyclerViewAdapter.setmRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int postion) {
+                            CoinObject mCoinObject = mCoinObjects.get(postion);
+                            Intent mIntent = new Intent(view.getContext(),CoinDetialActivity.class);
+                            Bundle mBundle = new Bundle();
+                            mBundle.putSerializable("CoinObject",mCoinObject);
+                            mIntent.putExtras(mBundle);
+                            startActivity(mIntent);
+                        }
+                    });
+
+                    break;
+            }
+        }
+    };
+
+
+    private List<Wallet> mWallets;
+    private void analiData(BaseResponseBean bean) {
+        try {
+            mWallets = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
+                    "data", Wallet.class);
+            handler.sendEmptyMessage(GlobleValue.SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            handler.sendEmptyMessage(GlobleValue.FAIL);
+        }
+    }
+
+    private List<CoinObject> mCoinObjects;
+    private void analiDataCoins(BaseResponseBean bean) {
+        try {
+            mCoinObjects = GsonUtils.toList(GsonUtils.getRootJsonObject(bean.getResult()),
+                    "data", CoinObject.class);
+            handler.sendEmptyMessage(GlobleValue.SUCCESS2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            handler.sendEmptyMessage(GlobleValue.FAIL);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getWallet();
     }
 }

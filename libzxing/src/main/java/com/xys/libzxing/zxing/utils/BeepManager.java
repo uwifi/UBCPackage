@@ -46,6 +46,7 @@ public class BeepManager implements MediaPlayer.OnCompletionListener, MediaPlaye
     private boolean playBeep;
     private boolean vibrate;
 
+
     public BeepManager(Activity activity) {
         this.activity = activity;
         this.mediaPlayer = null;

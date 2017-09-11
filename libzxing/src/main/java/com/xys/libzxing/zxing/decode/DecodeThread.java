@@ -43,6 +43,7 @@ public class DecodeThread extends Thread {
     public static final int QRCODE_MODE = 0X200;
     public static final int ALL_MODE = 0X300;
 
+
     private final CaptureActivity activity;
     private final Map<DecodeHintType, Object> hints;
     private final CountDownLatch handlerInitLatch;

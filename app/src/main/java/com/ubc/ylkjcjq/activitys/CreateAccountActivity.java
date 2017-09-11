@@ -22,7 +22,6 @@ import com.ubc.ylkjcjq.http.httputils.JsonObjectBuilder;
 import com.ubc.ylkjcjq.http.requestparams.BaseRequestParm;
 import com.ubc.ylkjcjq.http.responsebeans.BaseResponseBean;
 import com.ubc.ylkjcjq.http.responsebeans.RequestListener;
-import com.ubc.ylkjcjq.models.EndMenu;
 import com.ubc.ylkjcjq.utils.GlobleValue;
 import com.ubc.ylkjcjq.utils.LoginConfig;
 import com.ubc.ylkjcjq.utils.MD5Util;

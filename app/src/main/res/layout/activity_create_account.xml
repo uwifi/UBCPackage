@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <include layout="@layout/title_bar" />
-
     <LinearLayout
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_name"
+                android:hint="请输入用户名"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:digits="0123456789abcdefjhigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^/*()_+."

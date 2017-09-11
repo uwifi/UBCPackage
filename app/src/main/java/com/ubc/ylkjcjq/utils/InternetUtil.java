@@ -1,7 +1,7 @@
 package com.ubc.ylkjcjq.utils;
 
 /**
- * Created by Ebon-lax on 2016/11/24.
+ * Created by cjq on 17/8/23.
  * 获取网络连接的工具类
  */
 

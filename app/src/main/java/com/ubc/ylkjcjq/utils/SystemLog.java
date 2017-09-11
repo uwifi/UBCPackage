@@ -2,6 +2,8 @@ package com.ubc.ylkjcjq.utils;
 
 import android.util.Log;
 
+//Created by cjq on 17/8/23.
+
 public class SystemLog {
 
 	public static boolean DEBUG = true;

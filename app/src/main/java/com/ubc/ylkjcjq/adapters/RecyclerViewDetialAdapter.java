@@ -7,21 +7,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ubc.ylkjcjq.R;
-import com.ubc.ylkjcjq.models.CoinObject;
+import com.ubc.ylkjcjq.models.RecordItem;
 import com.ubc.ylkjcjq.views.RecyclerViewItemClickListener;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ylkjcjq on 2017/8/28.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewDetialAdapter extends RecyclerView.Adapter<RecyclerViewDetialAdapter.ViewHolder> {
 //    public CoinObject[] datas = null;
-    List<CoinObject> datas = null;
-    public RecyclerViewAdapter(List<CoinObject> datas) {
+    List<RecordItem> datas = null;
+    public RecyclerViewDetialAdapter(List<RecordItem> datas) {
         this.datas = datas;
     }
 
@@ -34,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //创建新View，被LayoutManager所调用
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item_,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.record_recyclerview_item_,viewGroup,false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -49,8 +48,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         }
-        viewHolder.mTextView.setText(datas.get(position).getItemSymbol());
-        viewHolder.tvNUM.setText(datas.get(position).getAccountValue()+"");
+//        viewHolder.mTextView.setText(datas.get(position).getItemSymbol());
+//        viewHolder.tvNUM.setText(datas.get(position).getAccountValue()+"");
     }
     //获取数据的数量
     @Override
